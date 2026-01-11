@@ -158,7 +158,7 @@ password mypassword
 login
 ```
 
-``` c
+``` ruby
 Switch#configure terminal 
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#line console 0
@@ -207,7 +207,7 @@ login local
 transport input telnet
 ```
 
-```
+``` bash
 Switch#configure terminal 
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#enable secret cisco
