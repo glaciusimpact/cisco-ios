@@ -5,12 +5,13 @@ Basic Network Cisco Switch IOS knowledge and configuration.
 
 # Table of contents
 
-- Configuration
+- [Configuration](#Configuration)
 	- [Default Switch Configuration](#default-switch-configuration)
 
-- Switch Management
-	- [Console Port Security - login](#console-por-security---login)
+- [Switch Management](#Switch%20Management)
+	- [Console Port Security - login](#console-port-security---login)
 	- [Telnet access with an account](#telnet-access-with-an-account)
+
 
 ---
 
@@ -145,6 +146,10 @@ Switch#
 ```
 
 
+---
+
+# Switch Management
+
 ## Console Port Security - login
 
 ```
@@ -256,7 +261,8 @@ end
 Switch#
 ```
 
-> [!warning]+ Warning
+> [!WARNING]
+> 
 > Passwords are encrypted but Telnet is a non-secure protocol. Dn not use Telnet if security is needed.
 
 
