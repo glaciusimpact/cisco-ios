@@ -5,23 +5,25 @@ Basic Network Cisco Switch IOS knowledge and configuration.
 
 # Table of contents
 
-Configuration
-- [Default Switch Configuration](#default-switch-configuration)
+- Configuration
+	- [Default Switch Configuration](#default-switch-configuration)
 
-Switch Management
-- [Console Port Security - login](#console-por-security---login)
-- [Telnet access with an account](#telnet-access-with-an-account)
+- Switch Management
+	- [Console Port Security - login](#console-por-security---login)
+	- [Telnet access with an account](#telnet-access-with-an-account)
 
 ---
 
-# Default Switch Configuration
+# Configuration
+
+## Default Switch Configuration
 
 Switch
 - WS-C3560-24PS
 Cisco IOS
 - 12.2(37)SE1
 
-```
+``` cisco_ios
 Building configuration...
 
 Current configuration : 1136 bytes
@@ -143,7 +145,7 @@ Switch#
 ```
 
 
-# Console Port Security - login
+## Console Port Security - login
 
 ```
 line console 0
@@ -151,7 +153,7 @@ password mypassword
 login
 ```
 
-``` pascal
+``` cisco_ios
 Switch#configure terminal 
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#line console 0
@@ -190,7 +192,7 @@ Switch#
 -> Console login is in cleartext in the configuration
 
 
-# Telnet access with an account
+## Telnet access with an account
 
 ```
 enable secret cisco
@@ -200,7 +202,7 @@ login local
 transport input telnet
 ```
 
-``` pascal
+``` cisco_ios
 Switch#configure terminal 
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#enable secret cisco
@@ -253,5 +255,9 @@ end
 
 Switch#
 ```
--> Passwords are cyphered but Telnet is a non-secure protocol
+
+> [!warning]+ Warning
+> Passwords are encrypted but Telnet is a non-secure protocol. Dn not use Telnet if security is needed.
+
+
 
