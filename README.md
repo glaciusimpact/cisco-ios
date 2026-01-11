@@ -1,15 +1,17 @@
-# cisco-ios
-Basic Network Cisco Switch IOS knowledge and configuration
+# Cisco IOS
+
+Basic Network Cisco Switch IOS knowledge and configuration.
+
 
 # Table of contents
 
 Configuration
-- [Default Switch Configuration](#Default%20Switch%20Configuration)
+- [Default Switch Configuration](#default-switch-configuration)
 
 Switch Management
 - [Console Port Security - login](#Console%20Port%20Security%20-%20login)
-- [Telnet with an account](#Telnet%20with%20an%20account)
-
+- [Telnet access with an account](#Telnet%20access%20with%20an%20account)
+[test2](#test2)
 
 # Default Switch Configuration
 
@@ -187,7 +189,7 @@ Switch#
 -> Console login is in cleartext in the configuration
 
 
-# Telnet with an account
+# Telnet access with an account
 
 ```
 enable secret cisco
@@ -252,3 +254,4 @@ Switch#
 ```
 -> Passwords are cyphered but Telnet is a non-secure protocol
 
+# test2
