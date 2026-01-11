@@ -8,7 +8,7 @@ Basic Network Cisco Switch IOS knowledge and configuration.
 - [Configuration](#Configuration)
 	- [Default Switch Configuration](#default-switch-configuration)
 
-- [Switch Management](#Switch%20Management)
+- [Switch Management](#Switch-Management)
 	- [Console Port Security - login](#console-port-security---login)
 	- [Telnet access with an account](#telnet-access-with-an-account)
 
@@ -24,7 +24,7 @@ Switch
 Cisco IOS
 - 12.2(37)SE1
 
-``` cisco_ios
+```
 Building configuration...
 
 Current configuration : 1136 bytes
@@ -158,7 +158,7 @@ password mypassword
 login
 ```
 
-``` cisco_ios
+``` c
 Switch#configure terminal 
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#line console 0
@@ -207,7 +207,7 @@ login local
 transport input telnet
 ```
 
-``` cisco_ios
+```
 Switch#configure terminal 
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#enable secret cisco
@@ -263,7 +263,7 @@ Switch#
 
 > [!WARNING]
 > 
-> Passwords are encrypted but Telnet is a non-secure protocol. Dn not use Telnet if security is needed.
+> Passwords are encrypted but Telnet is a non-secure protocol. Do not use Telnet if security is needed.
 
 
 
