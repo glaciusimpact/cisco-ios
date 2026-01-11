@@ -9,9 +9,10 @@ Configuration
 - [Default Switch Configuration](#default-switch-configuration)
 
 Switch Management
-- [Console Port Security - login](#Console%20Port%20Security%20-%20login)
-- [Telnet access with an account](#Telnet%20access%20with%20an%20account)
-[test2](#test2)
+- [Console Port Security - login](#console-por-security---login)
+- [Telnet access with an account](#telnet-access-with-an-account)
+
+---
 
 # Default Switch Configuration
 
@@ -254,4 +255,3 @@ Switch#
 ```
 -> Passwords are cyphered but Telnet is a non-secure protocol
 
-# test2
