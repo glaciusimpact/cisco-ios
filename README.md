@@ -696,8 +696,6 @@ show vlan
 <details>
 <summary>Output</summary>
 
-# text
-
 ```
 Switch#show vlan 
 
