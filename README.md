@@ -438,7 +438,7 @@ login
 
 <div style="background-color: rgb(255, 50, 50);">
 
-```
+``
 Switch#configure terminal  
 Enter configuration commands, one per line. End with CNTL/Z.  
 Switch(config)#line console 0  
@@ -472,11 +472,11 @@ login
 end
 
 Switch#
-```
+``
 
 </div>
 
-> [!example]
+> [!NOTE]
 > Switch#configure terminal  
 > Enter configuration commands, one per line. End with CNTL/Z.  
 > Switch(config)#line console 0  
@@ -510,3 +510,68 @@ Switch#
 > end
 > 
 > Switch#
+
+
+
+```mermaid
+graph TD;
+    Switch%201-->B;
+    Switch%201-->C;
+    B-->D;
+    C-->D;
+```
+
+
+```c
+Switch#configure terminal 
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#enable secret cisco
+Switch(config)#username myaccount secret mypassword
+Switch(config)#line vty 0 15
+Switch(config-line)#login local
+Switch(config-line)#transport input telnet
+Switch(config-line)#^Z
+Switch#
+%SYS-5-CONFIG_I: Configured from console by console
+Switch#show running-config 
+Building configuration...
+
+Current configuration : 1355 bytes
+!
+version 12.2(37)SE1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Switch
+!
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+!
+!
+!
+!
+!
+!
+!
+!
+username myaccount secret 5 $1$mERr$7sOd0mgRuXYhHwfWsV4QZ/
+!
+!
+[...]
+!
+line vty 0 4
+ login local
+ transport input telnet
+line vty 5 15
+ login local
+ transport input telnet
+!
+!
+!
+!
+end
+
+
+Switch#
+```
