@@ -410,7 +410,7 @@ login
 > 
 > Switch#show running-config ?
 >   |  Output Modifiers
->   <cr>
+>   <cr\>
 > Switch#show running-config 
 > Building configuration...
 > 
@@ -433,4 +433,46 @@ login
 > 
 > 
 > Switch#
+
+
+
+<div style="background-color: rgb(255, 50, 50);">
+
+```
+Switch#configure terminal  
+Enter configuration commands, one per line. End with CNTL/Z.  
+Switch(config)#line console 0  
+Switch(config-line)#password mypassword  
+Switch(config-line)#login  
+Switch(config-line)#^Z  
+Switch#  
+%SYS-5-CONFIG_I: Configured from console by console
+
+Switch#show running-config ?  
+| Output Modifiers  
+  
+Switch#show running-config  
+Building configuration...
+
+[...]  
+!  
+!  
+line con 0  
+password mypassword  
+login  
+!  
+line aux 0  
+!  
+line vty 0 4  
+login  
+!  
+!  
+!  
+!  
+end
+
+Switch#
+```
+
+</div>
 
