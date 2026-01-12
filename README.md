@@ -8,7 +8,7 @@ Basic Network Cisco Switch IOS XE knowledge and configuration.
 - [Configuration](#Configuration)
 	- [Default Switch Configuration](#default-switch-configuration)
 	- Basic Setup
-	- [Erase Configuration](erase-configuration)
+	- [Erase Configuration](#erase-configuration)
 
 - [Switch Management](#Switch-Management)
 	- [Console Port Security - login](#console-port-security---login)
@@ -404,6 +404,10 @@ Switch#
 ```
 </details>
 
+###  Basic Setup
+
+
+
 ### Erase Configuration
 
 ```
@@ -414,8 +418,6 @@ write erase
 > Instead of typing `write erase` we can type 2 other commands to erase the switch configuration:
 > - `erase startup-config`
 > - `erase nvram:`
-
-
 
 ---
 
@@ -552,10 +554,14 @@ Switch#
 	- [ ] Use enable secret
 	- [ ] Disable enable password
 	- [ ] Enable SSH
+	- [ ] Setup SSH
 	- [ ] Disable Telnet
-	- [ ] Disable HTTP
+	- [ ] Disable Web interfaces
+	- [ ] Disable FTP
+	- [ ] Disable TFTP
+	- [ ] Set Console Password
 	- [ ] Secure Console Password
-	- [ ] Secure SSH local user password
+	- [ ] Secure SSH local user Password
 - [ ] Other protocols
 	- [ ] SNMPv3
 - [ ] Discovery protocols
@@ -563,6 +569,9 @@ Switch#
 	- [ ] Disable LLDP
 - [ ] DHCP Snooping
 - [ ] Port Security
+- [ ] Storm control
+
+
 #### Enable secure management access
 
 *Enable secret*
@@ -571,11 +580,15 @@ Switch#
 enable secret mysecret
 ```
 
+<details>
+<summary>Output</summary>
+
 You should get something like this in the running-configuration
 
 ``` python
 enable secret 5 $1$mERr$/x9VUDEedbClBAt8DhbGj0
 ```
+</details>
 
 *Disable enable password*
 
@@ -586,5 +599,165 @@ no enable password
 *Enable SSH*
 
 ```
+hostname SW1
+ip domain name mydomain.com
+crypto key generate rsa
+```
+
+<details>
+<summary>Output</summary>
+
+``` python
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hostname SW1
+SW1(config)#ip domain name mydomain.com
+SW1(config)#crypto key generate rsa
+The name for the keys will be: SW1.mydomain.com
+Choose the size of the key modulus in the range of 360 to 4096 for your
+  General Purpose Keys. Choosing a key modulus greater than 512 may take
+  a few minutes.
+
+How many bits in the modulus [512]: 4096
+% Generating 4096 bit RSA keys, keys will be non-exportable...[OK]
+
+SW1(config)#
+```
+</details>
+
+*Setup SSH*
 
 ```
+username myaccount secret mypassword
+ip ssh version 2
+
+line vty 0 15
+login local
+transport input ssh
+exec-timeout 30
+```
+
+<details>
+<summary>Output</summary>
+
+``` python
+SW1(config)#username myaccount secret mypassword
+*Mar 1 6:28:51.334: %SSH-5-ENABLED: SSH 1.99 has been enabled
+SW1(config)#ip ssh version 2
+SW1(config)#line vty 0 15
+SW1(config-line)#login local
+SW1(config-line)#transport input ssh
+SW1(config-line)#^Z
+SW1#
+%SYS-5-CONFIG_I: Configured from console by console
+
+SW1#show running-config 
+Building configuration...
+
+Current configuration : 1555 bytes
+!
+version 16.3.2
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname SW1
+!
+!
+no profinet
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+username myaccount secret 5 $1$mERr$7sOd0mgRuXYhHwfWsV4QZ/
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+no ip domain-lookup
+ip domain-name mydomain.com
+!
+!
+
+[...]
+
+!
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+!
+!
+!
+end
+
+
+SW1#
+```
+</details>
+
+*Disable Telnet*
+
+```
+line vty 0 15
+transport input ssh
+```
+
+*Disable Web interfaces*
+
+```
+no ip http server
+no ip http secure-server
+```
+
+
+```
+
+exec-timeout 30
+```
+
+*Secure Console Password*
+
+```
+service password-encryption
+```
+
+<details>
+<summary>Output</summary>
+
+``` python
+line con 0
+ password 123456
+!
+
+[...]
+
+SW1(config-line)#service password-encryption
+SW1(config)#do sh run
+
+[...]
+
+line con 0
+ password 7 08701E1D5D4C53
+
+[...]
+```
+</details>
+
