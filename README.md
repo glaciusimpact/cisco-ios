@@ -8,25 +8,12 @@ Basic Network Cisco Switch IOS XE knowledge and configuration.
 - [Configuration](#Configuration)
 	- [Default Switch Configuration](#default-switch-configuration)
 	- Basic Setup
-	- Erase Configuration
+	- [Erase Configuration](erase-configuration)
 
 - [Switch Management](#Switch-Management)
 	- [Console Port Security - login](#console-port-security---login)
 	- [Telnet access with an account](#telnet-access-with-an-account)
 	- SSH access
-
-- Interfaces
-	- Access mode
-	- Trunk Mode
-	- Etherchannel
-	- Assign IP address
-
-- ACL
-	- ACL
-
-- Routing
-	- OSPF
-	- BGP
 
 - [Security](#Security)
 	- [Security Checklist](#security-checklist)
@@ -58,7 +45,7 @@ show version
 <details>
 <summary>Output</summary>
 
-```
+``` python
 Switch#show version
 Cisco IOS Software [Denali], Catalyst L3 Switch Software (CAT3K_CAA-UNIVERSALK9-M), Version 16.3.2, RELEASE SOFTWARE (fc4)
 Technical Support : http://www.cisco.com/techsupport
@@ -154,7 +141,7 @@ show running-config
 <details>
 <summary>Output</summary>
 
-```
+``` python
 Switch#show running-config 
 Building configuration...
 
@@ -288,7 +275,7 @@ show interfaces status
 <details>
 <summary>Output</summary>
 
-```
+``` python
 Switch#show interfaces status 
 Port      Name               Status       Vlan       Duplex  Speed Type
 Fa0/1                        notconnect   1          auto    auto  10/100BaseTX
@@ -333,7 +320,7 @@ show vlan
 <details>
 <summary>Output</summary>
 
-```
+``` python
 Switch#show vlan 
 
 VLAN Name                             Status    Ports
@@ -370,6 +357,66 @@ Switch#
 ```
 </details>
 
+#### Default L3 interfaces
+
+Show L3 interfaces status
+
+```
+show ip interface brief
+```
+
+<details>
+<summary>Output</summary>
+
+``` python
+Switch#show ip interface brief 
+Interface              IP-Address      OK? Method Status                Protocol 
+GigabitEthernet1/0/1   unassigned      YES unset  down                  down 
+GigabitEthernet1/0/2   unassigned      YES unset  down                  down 
+GigabitEthernet1/0/3   unassigned      YES unset  down                  down 
+GigabitEthernet1/0/4   unassigned      YES unset  down                  down 
+GigabitEthernet1/0/5   unassigned      YES unset  down                  down 
+GigabitEthernet1/0/6   unassigned      YES unset  down                  down 
+GigabitEthernet1/0/7   unassigned      YES unset  down                  down 
+GigabitEthernet1/0/8   unassigned      YES unset  down                  down 
+GigabitEthernet1/0/9   unassigned      YES unset  down                  down 
+GigabitEthernet1/0/10  unassigned      YES unset  down                  down 
+GigabitEthernet1/0/11  unassigned      YES unset  down                  down 
+GigabitEthernet1/0/12  unassigned      YES unset  down                  down 
+GigabitEthernet1/0/13  unassigned      YES unset  down                  down 
+GigabitEthernet1/0/14  unassigned      YES unset  down                  down 
+GigabitEthernet1/0/15  unassigned      YES unset  down                  down 
+GigabitEthernet1/0/16  unassigned      YES unset  down                  down 
+GigabitEthernet1/0/17  unassigned      YES unset  down                  down 
+GigabitEthernet1/0/18  unassigned      YES unset  down                  down 
+GigabitEthernet1/0/19  unassigned      YES unset  down                  down 
+GigabitEthernet1/0/20  unassigned      YES unset  down                  down 
+GigabitEthernet1/0/21  unassigned      YES unset  down                  down 
+GigabitEthernet1/0/22  unassigned      YES unset  down                  down 
+GigabitEthernet1/0/23  unassigned      YES unset  down                  down 
+GigabitEthernet1/0/24  unassigned      YES unset  down                  down 
+GigabitEthernet1/1/1   unassigned      YES unset  down                  down 
+GigabitEthernet1/1/2   unassigned      YES unset  down                  down 
+GigabitEthernet1/1/3   unassigned      YES unset  down                  down 
+GigabitEthernet1/1/4   unassigned      YES unset  down                  down 
+Vlan1                  unassigned      YES unset  administratively down down
+Switch#
+```
+</details>
+
+### Erase Configuration
+
+```
+write erase
+```
+
+> [!NOTE]
+> Instead of typing `write erase` we can type 2 other commands to erase the switch configuration:
+> - `erase startup-config`
+> - `erase nvram:`
+
+
+
 ---
 
 # Switch Management
@@ -382,7 +429,10 @@ password mypassword
 login
 ```
 
-``` ruby
+<details>
+<summary>Output</summary>
+
+``` python
 Switch#configure terminal 
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#line console 0
@@ -415,13 +465,11 @@ end
 
 Switch#
 ```
+</details>
 
 > [!WARNING]
 > 
 > Console login is in cleartext in the configuration.
-
-
-
 
 ## Telnet access with an account
 
@@ -433,6 +481,9 @@ login local
 transport input telnet
 ```
 
+<details>
+<summary>Output</summary>
+
 ``` bash
 Switch#configure terminal 
 Enter configuration commands, one per line.  End with CNTL/Z.
@@ -486,428 +537,54 @@ end
 
 Switch#
 ```
+</details>
 
 > [!WARNING]
 > 
 > Passwords are encrypted but Telnet is a non-secure protocol. Do not use Telnet if security is needed.
 
 
-
-# test test
-
-> 1
-> 2
-> 3
-
-
-> enable secret cisco
-> username myaccount secret mypassword
-> line vty 0 15
-> login local
-> transport input telnet
-
-
-4
-5
-6  
-
-
-
-
-
-```
-line console 0
-password mypassword
-login
-```
-
-
-> Switch#configure terminal 
-> Enter configuration commands, one per line.  End with CNTL/Z.
-> Switch(config)#line console 0
-> Switch(config-line)#password mypassword
-> Switch(config-line)#login
-> Switch(config-line)#^Z
-> Switch#
-> %SYS-5-CONFIG_I: Configured from console by console
-> 
-> Switch#show running-config ?
->   |  Output Modifiers
->   <cr\>
-> Switch#show running-config 
-> Building configuration...
-> 
-> [...]
-> !
-> !
-> line con 0
->  password mypassword
->  login
-> !
-> line aux 0
-> !
-> line vty 0 4
->  login
-> !
-> !
-> !
-> !
-> end
-> 
-> 
-> Switch#
-
-
-
-<div style="background-color: rgb(255, 50, 50);">
-
-``
-Switch#configure terminal  
-Enter configuration commands, one per line. End with CNTL/Z.  
-Switch(config)#line console 0  
-Switch(config-line)#password mypassword  
-Switch(config-line)#login  
-Switch(config-line)#^Z  
-Switch#  
-%SYS-5-CONFIG_I: Configured from console by console
-
-Switch#show running-config ?  
-| Output Modifiers  
-  
-Switch#show running-config  
-Building configuration...
-
-[...]  
-!  
-!  
-line con 0  
-password mypassword  
-login  
-!  
-line aux 0  
-!  
-line vty 0 4  
-login  
-!  
-!  
-!  
-!  
-end
-
-Switch#
-``
-
-</div>
-
-> [!NOTE]
-> Switch#configure terminal  
-> Enter configuration commands, one per line. End with CNTL/Z.  
-> Switch(config)#line console 0  
-> Switch(config-line)#password mypassword  
-> Switch(config-line)#login  
-> Switch(config-line)#^Z  
-> Switch#  
-> %SYS-5-CONFIG_I: Configured from console by console
-> 
-> Switch#show running-config ?  
-> | Output Modifiers  
->   
-> Switch#show running-config  
-> Building configuration...
-> 
-> [...]  
-> !  
-> !  
-> line con 0  
-> password mypassword  
-> login  
-> !  
-> line aux 0  
-> !  
-> line vty 0 4  
-> login  
-> !  
-> !  
-> !  
-> !  
-> end
-> 
-> Switch#
-
-
-
-```mermaid
-graph TD;
-    Switch1-->B;
-    Switch1-->C;
-    B-->D;
-    C-->D;
-```
-
-
-``` c
-Switch#configure terminal 
-Enter configuration commands, one per line.  End with CNTL/Z.
-Switch(config)#enable secret cisco
-Switch(config)#username myaccount secret mypassword
-Switch(config)#line vty 0 15
-Switch(config-line)#login local
-Switch(config-line)#transport input telnet
-Switch(config-line)#^Z
-Switch#
-%SYS-5-CONFIG_I: Configured from console by console
-Switch#show running-config 
-Building configuration...
-
-Current configuration : 1355 bytes
-!
-version 12.2(37)SE1
-no service timestamps log datetime msec
-no service timestamps debug datetime msec
-no service password-encryption
-!
-hostname Switch
-!
-!
-enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
-!
-!
-!
-!
-!
-!
-!
-!
-username myaccount secret 5 $1$mERr$7sOd0mgRuXYhHwfWsV4QZ/
-!
-!
-[...]
-!
-line vty 0 4
- login local
- transport input telnet
-line vty 5 15
- login local
- transport input telnet
-!
-!
-!
-!
-end
-
-
-Switch#
-```
-
-
-``` bash
-Switch#configure terminal 
-Enter configuration commands, one per line.  End with CNTL/Z.
-Switch(config)#enable secret cisco
-Switch(config)#username myaccount secret mypassword
-Switch(config)#line vty 0 15
-Switch(config-line)#login local
-Switch(config-line)#transport input telnet
-Switch(config-line)#^Z
-Switch#
-%SYS-5-CONFIG_I: Configured from console by console
-Switch#show running-config 
-Building configuration...
-
-Current configuration : 1355 bytes
-!
-version 12.2(37)SE1
-no service timestamps log datetime msec
-no service timestamps debug datetime msec
-no service password-encryption
-!
-hostname Switch
-!
-!
-enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
-!
-!
-!
-!
-!
-!
-!
-!
-username myaccount secret 5 $1$mERr$7sOd0mgRuXYhHwfWsV4QZ/
-!
-!
-[...]
-!
-line vty 0 4
- login local
- transport input telnet
-line vty 5 15
- login local
- transport input telnet
-!
-!
-!
-!
-end
-
-
-Switch#
-```
-
-
-
-``` python
-Switch#configure terminal 
-Enter configuration commands, one per line.  End with CNTL/Z.
-Switch(config)#enable secret cisco
-Switch(config)#username myaccount secret mypassword
-Switch(config)#line vty 0 15
-Switch(config-line)#login local
-Switch(config-line)#transport input telnet
-Switch(config-line)#^Z
-Switch#
-%SYS-5-CONFIG_I: Configured from console by console
-Switch#show running-config 
-Building configuration...
-
-Current configuration : 1355 bytes
-!
-version 12.2(37)SE1
-no service timestamps log datetime msec
-no service timestamps debug datetime msec
-no service password-encryption
-!
-hostname Switch
-!
-!
-enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
-!
-!
-!
-!
-!
-!
-!
-!
-username myaccount secret 5 $1$mERr$7sOd0mgRuXYhHwfWsV4QZ/
-!
-!
-[...]
-!
-line vty 0 4
- login local
- transport input telnet
-line vty 5 15
- login local
- transport input telnet
-!
-!
-!
-!
-end
-
-
-Switch#
-```
-
-
-
-```
-show vlan
-```
-
-<details>
-<summary>Output</summary>
-
-```
-Switch#show vlan 
-
-VLAN Name                             Status    Ports
----- -------------------------------- --------- -------------------------------
-1    default                          active    Fa0/1, Fa0/2, Fa0/3, Fa0/4
-                                                Fa0/5, Fa0/6, Fa0/7, Fa0/8
-                                                Fa0/9, Fa0/10, Fa0/11, Fa0/12
-                                                Fa0/13, Fa0/14, Fa0/15, Fa0/16
-                                                Fa0/17, Fa0/18, Fa0/19, Fa0/20
-                                                Fa0/21, Fa0/22, Fa0/23, Fa0/24
-                                                Gig0/1, Gig0/2
-1002 fddi-default                     active    
-1003 token-ring-default               active    
-1004 fddinet-default                  active    
-1005 trnet-default                    active    
-
-VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
----- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
-1    enet  100001     1500  -      -      -        -    -        0      0
-1002 fddi  101002     1500  -      -      -        -    -        0      0   
-1003 tr    101003     1500  -      -      -        -    -        0      0   
-1004 fdnet 101004     1500  -      -      -        ieee -        0      0   
-1005 trnet 101005     1500  -      -      -        ibm  -        0      0   
-
-VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
----- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
-
-Remote SPAN VLANs
-------------------------------------------------------------------------------
-
-Primary Secondary Type              Ports
-------- --------- ----------------- ------------------------------------------
-Switch#
-```
-</details>
-
-
-```
-Switch#show vlan 
-
-VLAN Name                             Status    Ports
----- -------------------------------- --------- -------------------------------
-1    default                          active    Fa0/1, Fa0/2, Fa0/3, Fa0/4
-                                                Fa0/5, Fa0/6, Fa0/7, Fa0/8
-                                                Fa0/9, Fa0/10, Fa0/11, Fa0/12
-                                                Fa0/13, Fa0/14, Fa0/15, Fa0/16
-                                                Fa0/17, Fa0/18, Fa0/19, Fa0/20
-                                                Fa0/21, Fa0/22, Fa0/23, Fa0/24
-                                                Gig0/1, Gig0/2
-1002 fddi-default                     active    
-1003 token-ring-default               active    
-1004 fddinet-default                  active    
-1005 trnet-default                    active    
-
-VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
----- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
-1    enet  100001     1500  -      -      -        -    -        0      0
-1002 fddi  101002     1500  -      -      -        -    -        0      0   
-1003 tr    101003     1500  -      -      -        -    -        0      0   
-1004 fdnet 101004     1500  -      -      -        ieee -        0      0   
-1005 trnet 101005     1500  -      -      -        ibm  -        0      0   
-
-VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
----- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
-
-Remote SPAN VLANs
-------------------------------------------------------------------------------
-
-Primary Secondary Type              Ports
-------- --------- ----------------- ------------------------------------------
-Switch#
-```
-
-
 ## Security
 
 ### Security Checklist
 
-- [ ] Enable secure management access
-- [ ] Disable unsecure management access
+- [ ] Secure management access
+	- [ ] Use enable secret
+	- [ ] Disable enable password
+	- [ ] Enable SSH
+	- [ ] Disable Telnet
+	- [ ] Disable HTTP
+	- [ ] Secure Console Password
+	- [ ] Secure SSH local user password
+- [ ] Other protocols
+	- [ ] SNMPv3
+- [ ] Discovery protocols
+	- [ ] Disable CDP
+	- [ ] Disable LLDP
+- [ ] DHCP Snooping
+- [ ] Port Security
+#### Enable secure management access
 
+*Enable secret*
 
-<div>
-  <input type="checkbox" name="uchk">
-  <label for="uchk">Unchecked.</label>
-</div>
-<div>
-  <input type="checkbox" name="chk" checked>
-  <label for="chk">Checked.</label>
-</div>
+```
+enable secret mysecret
+```
 
+You should get something like this in the running-configuration
+
+``` python
+enable secret 5 $1$mERr$/x9VUDEedbClBAt8DhbGj0
+```
+
+*Disable enable password*
+
+```
+no enable password
+```
+
+*Enable SSH*
+
+```
+
+```
