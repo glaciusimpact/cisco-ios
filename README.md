@@ -1,40 +1,65 @@
-# Cisco IOS
+# Cisco IOS XE
 
-Basic Network Cisco Switch IOS knowledge and configuration.
+Basic Network Cisco Switch IOS XE knowledge and configuration.
 
 
-# Table of contents
+## Table of contents
 
 - [Configuration](#Configuration)
 	- [Default Switch Configuration](#default-switch-configuration)
+	- Basic Configuration
+	- Erase Configuration
 
 - [Switch Management](#Switch-Management)
 	- [Console Port Security - login](#console-port-security---login)
 	- [Telnet access with an account](#telnet-access-with-an-account)
+	- SSH access
 
-[test test](<#test test>)
+- Interfaces
+	- Access mode
+	- Trunk Mode
+	- Etherchannel
+	- Assign IP address
+
+- ACL
+	- ACL
+
+- Routing
+	- OSPF
+	- BGP
+
+- Security Checklist
+	- Access Security
+	- Password Security
+	- Protocol Security
+	- L2 Network Attack Security
+	- L3 Network Attack Security
+
 
 ---
 
-# Configuration
+## Configuration
 
-## Default Switch Configuration
+### Default Switch Configuration
 
-Switch
-- WS-C3560-24PS
+#### Switch Model
 
-Cisco IOS
-- 12.2(37)SE1
+|                      |               |
+| -------------------- | ------------- |
+| Switch Model         | WS-C3650-24PS |
+| Cisco IOS XE version | 16.3.2        |
+| Number of ports      | 24+4          |
 
-### a) Running configuration
+#### Default running configuration
 
-By default we can see there is **no authentification** and **no config on interfaces**.
-
-Following command shows the content of the configuration of a Cisco switch using IOS.
+*Show default configuration*
 
 ```
 show running-config
 ```
+
+<details>
+<summary>Output</summary>
 
 ```
 Switch#show running-config 
@@ -157,14 +182,18 @@ end
 
 Switch#
 ```
+</details>
 
-### b) Interfaces
+#### Default Interface status
 
-As long as the interfaces of the switch are not connected to another devices they just stay in the status "notconnect".
+*Show default interface status*
 
 ```
 show interfaces status
 ```
+
+<details>
+<summary>Output</summary>
 
 ```
 Switch#show interfaces status 
@@ -198,14 +227,18 @@ Gig0/2                       notconnect   1          auto    auto  10/100BaseTX
 
 Switch#
 ```
+</details>
 
-### c) VLANs
+#### Default VLANs
 
-VLAN 1 is enabled by default and applied on every interfaces. It cannot be disabled.
+*Show default VLAN status*
 
 ```
 show vlan
 ```
+
+<details>
+<summary>Output</summary>
 
 ```
 Switch#show vlan 
@@ -242,7 +275,7 @@ Primary Secondary Type              Ports
 ------- --------- ----------------- ------------------------------------------
 Switch#
 ```
-
+</details>
 
 ---
 
@@ -515,8 +548,8 @@ Switch#
 
 ```mermaid
 graph TD;
-    Switch%201-->B;
-    Switch%201-->C;
+    Switch1-->B;
+    Switch1-->C;
     B-->D;
     C-->D;
 ```
@@ -695,6 +728,7 @@ show vlan
 
 <details>
 <summary>Output</summary>
+
 ```
 Switch#show vlan 
 
