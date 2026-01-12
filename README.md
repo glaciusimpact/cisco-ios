@@ -694,8 +694,12 @@ show vlan
 ```
 
 <details>
+
 <summary>Output</summary>
-```
+
+# text
+
+``` ruby
 Switch#show vlan 
 
 VLAN Name                             Status    Ports
@@ -730,6 +734,7 @@ Primary Secondary Type              Ports
 ------- --------- ----------------- ------------------------------------------
 Switch#
 ```
+
 </details>
 
 
