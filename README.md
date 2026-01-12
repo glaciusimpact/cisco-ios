@@ -35,13 +35,11 @@ Basic Network Cisco Switch IOS XE knowledge and configuration.
 	- L2 Network Attack Security
 	- L3 Network Attack Security
 
-
----
-
 ## Configuration
 
 ### Default Switch Configuration
 
+---
 #### Switch Model
 
 |                      |               |
@@ -49,6 +47,101 @@ Basic Network Cisco Switch IOS XE knowledge and configuration.
 | Switch Model         | WS-C3650-24PS |
 | Cisco IOS XE version | 16.3.2        |
 | Number of ports      | 24+4          |
+
+*Show switch model and software version*
+
+```
+show version
+```
+
+<details>
+<summary>Output</summary>
+
+```
+Switch#show version
+Cisco IOS Software [Denali], Catalyst L3 Switch Software (CAT3K_CAA-UNIVERSALK9-M), Version 16.3.2, RELEASE SOFTWARE (fc4)
+Technical Support : http://www.cisco.com/techsupport
+Copyright(c) 1986 - 2016 by Cisco Systems, Inc.
+Compiled Tue 08 - Nov - 16 17:31 by pt_team
+
+
+Cisco IOS-XE software, Copyright(c) 2005 - 2016 by cisco Systems, Inc.
+All rights reserved.Certain components of Cisco IOS - XE software are
+licensed under the GNU General Public License("GPL") Version 2.0.The
+software code licensed under GPL Version 2.0 is free software that comes
+with ABSOLUTELY NO WARRANTY.You can redistribute and / or modify such
+GPL code under the terms of GPL Version 2.0.For more details, see the
+documentation or "License Notice" file accompanying the IOS - XE software,
+or the applicable URL provided on the flyer accompanying the IOS - XE
+software.
+
+
+ROM: IOS-XE ROMMON
+BOOTLDR: CAT3K_CAA Boot Loader (CAT3K_CAA-HBOOT-M) Version 4.26, RELEASE SOFTWARE (P)
+
+test uptime is 7 hours, 33 minutes
+Uptime for this control processor is 7 hours, 36 minutes
+System returned to ROM by Power Failure
+System image file is "flash:/cat3k_caa-universalk9.16.03.02.SPA.bin"
+Last reload reason : Power Failure
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+
+
+Technology Package License Information :
+
+---------------------------------------------------------------- -
+Technology - package                   Technology - package
+Current             Type             Next reboot
+------------------------------------------------------------------
+ipservicesk9        Permanent        ipservicesk9
+
+cisco WS-C3650-24PS (MIPS) processor (revision N0) with 865815K/6147K bytes of memory.
+Processor board ID FDO2031E1Q6
+1 Virtual Ethernet interface
+28 Gigabit Ethernet/IEEE 802.3 interface(s)
+2048K bytes of non-volatile configuration memory.
+4194304K bytes of physical memory.
+250456K bytes of Crash Files at crashinfo : .
+1609272K bytes of Flash at flash : .
+0K bytes of  at webui : .
+
+Base ethernet MAC Address       : 00:0C:CF:4B:0C:A1
+Motherboard assembly number     : 73-15899-06
+Motherboard serial number       : FDO20311WHP
+Model revision number           : N0
+Motherboard revision number     : A0
+Model number                    : WS-C3650-24PS
+System serial number            : FDO2031Q0TD
+
+
+
+Switch   Ports  Model              SW Version              SW Image              Mode
+------   -----  -----              ----------              ----------            ----
+*    1   28     WS-C3650-24PS      16.3.2                  CAT3K_CAA-UNIVERSALK9 BUNDLE
+
+Configuration register is 0x102
+
+
+Switch#
+``` 
+</details>
+
 
 #### Default running configuration
 
