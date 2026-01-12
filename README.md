@@ -900,3 +900,14 @@ Switch#
 
 - [ ] Enable secure management access
 - [ ] Disable unsecure management access
+
+
+<div>
+  <input type="checkbox" name="uchk">
+  <label for="uchk">Unchecked.</label>
+</div>
+<div>
+  <input type="checkbox" name="chk" checked>
+  <label for="chk">Checked.</label>
+</div>
+
