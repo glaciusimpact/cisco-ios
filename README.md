@@ -11,12 +11,13 @@ Basic Network Cisco Switch IOS XE knowledge and configuration.
 	- [Erase Configuration](#erase-configuration)
 
 - [Switch Management](#Switch-Management)
-	- [Console Port Security - login](#console-port-security---login)
+	- [Console Port password protection](#console-port-password-protection)
 	- [Telnet access with an account](#telnet-access-with-an-account)
 	- SSH access
 
 - [Security](#Security)
 	- [Security Checklist](#security-checklist)
+	- [Cisco IOS Encryption/Hash](#Cisco-IOS-Encryption/Hash)
 	- Access Security
 	- Password Security
 	- Protocol Security
@@ -423,7 +424,7 @@ write erase
 
 # Switch Management
 
-## Console Port Security - login
+## Console Port password protection
 
 ```
 line console 0
@@ -553,14 +554,12 @@ Switch#
 - [ ] Secure management access
 	- [ ] Use enable secret
 	- [ ] Disable enable password
-	- [ ] Enable SSH
-	- [ ] Setup SSH
+	- [ ] Enable and setup SSH
 	- [ ] Disable Telnet
 	- [ ] Disable Web interfaces
 	- [ ] Disable FTP
 	- [ ] Disable TFTP
-	- [ ] Set Console Password
-	- [ ] Secure Console Password
+	- [ ] Secure Console access
 	- [ ] Secure SSH local user Password
 - [ ] Other protocols
 	- [ ] SNMPv3
@@ -574,7 +573,7 @@ Switch#
 
 #### Enable secure management access
 
-*Enable secret*
+*Use enable secret*
 
 ```
 enable secret mysecret
@@ -596,12 +595,20 @@ enable secret 5 $1$mERr$/x9VUDEedbClBAt8DhbGj0
 no enable password
 ```
 
-*Enable SSH*
+*Enable and setup SSH*
 
 ```
 hostname SW1
 ip domain name mydomain.com
 crypto key generate rsa
+
+username myaccount secret mypassword
+ip ssh version 2
+
+line vty 0 15
+login local
+transport input ssh
+exec-timeout 30
 ```
 
 <details>
@@ -622,25 +629,6 @@ How many bits in the modulus [512]: 4096
 % Generating 4096 bit RSA keys, keys will be non-exportable...[OK]
 
 SW1(config)#
-```
-</details>
-
-*Setup SSH*
-
-```
-username myaccount secret mypassword
-ip ssh version 2
-
-line vty 0 15
-login local
-transport input ssh
-exec-timeout 30
-```
-
-<details>
-<summary>Output</summary>
-
-``` python
 SW1(config)#username myaccount secret mypassword
 *Mar 1 6:28:51.334: %SSH-5-ENABLED: SSH 1.99 has been enabled
 SW1(config)#ip ssh version 2
@@ -728,14 +716,72 @@ no ip http secure-server
 ```
 
 
-```
+	- [ ] Disable FTP
+	- [ ] Disable TFTP
+	- [ ] Secure Console access
+	- [ ] Secure SSH local user Password
 
+
+
+
+
+
+*Secure Console access*
+
+(prefered configuration)
+
+```
+username myconsoleaccount secret myconsolepassword
+line console 0
+no password
+login local
 exec-timeout 30
 ```
 
-*Secure Console Password*
+<details>
+<summary>Output</summary>
+
+``` python
+Switch>en
+Switch#configure terminal 
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#username myconsoleaccount secret myconsolepassword
+Switch(config)#line console 0
+Switch(config-line)#no password
+Switch(config-line)#login local
+Switch(config-line)#exec-timeout 30
+Switch(config-line)#^Z
+Switch#
+%SYS-5-CONFIG_I: Configured from console by console
+
+Switch#show running-config 
+
+[...]
+
+!
+username myconsoleaccount secret 5 $1$mERr$XzhDH/exGgLcaXa4fSWcG0
+!
+
+[...]
+
+!
+line con 0
+ exec-timeout 30 0
+ login local
+!
+
+[...]
+```
+</details>
+
+(other Console access configuration but less secure)
 
 ```
+line console 0
+password 123456
+login
+exec-timeout 30
+exit
 service password-encryption
 ```
 
@@ -743,21 +789,35 @@ service password-encryption
 <summary>Output</summary>
 
 ``` python
-line con 0
+Switch#configure terminal 
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#line console 0
+Switch(config-line)#password 123456
+Switch(config-line)#login
+Switch(config-line)#exec-timeout 30
+Switch(config-line)#do sh run | i password
+no service password-encryption
  password 123456
-!
-
-[...]
-
-SW1(config-line)#service password-encryption
-SW1(config)#do sh run
-
-[...]
-
-line con 0
+Switch(config-line)#exit
+Switch(config)#service password-encryption
+Switch(config)#do sh run | i password
+service password-encryption
  password 7 08701E1D5D4C53
-
-[...]
+Switch(config)#
 ```
 </details>
 
+
+### Cisco IOS Encryption/Hash
+
+| Type | Cisco Encryption/Hash                       | Ability to crack | NSA recommendation (2022)                                                      |
+| :--: | ------------------------------------------- | :--------------: | :----------------------------------------------------------------------------- |
+|  0   | Clear                                       |    Immediate     | $${\color{red}Do \space not \space use}$$                                      |
+|  4   | SHA-256                                     |       Easy       | $${\color{red}Do \space not \space use}$$                                      |
+|  5   | MD5                                         |      Medium      | Not NIST approved, use only when Types 6, 8, and 9 are not available           |
+|  6   | AES-128 Reversible Encryption               |    Difficult     | Use only when reversible encryption is needed, or when Type 8 is not available |
+|  7   | Encrypted (Reversible Vigenere obfuscation) |    Immediate     | $${\color{red}Do \space not \space use}$$                                      |
+|  8   | SHA-256                                     |    Difficult     | Recommended                                                                    |
+|  9   | Scrypt                                      |    Difficult     | Not NIST approved                                                              |
+- Link:
+https://media.defense.gov/2022/Feb/17/2002940795/-1/-1/1/CSI_CISCO_PASSWORD_TYPES_BEST_PRACTICES_20220217.PDF
