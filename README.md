@@ -522,7 +522,118 @@ graph TD;
 ```
 
 
-```c
+``` c
+Switch#configure terminal 
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#enable secret cisco
+Switch(config)#username myaccount secret mypassword
+Switch(config)#line vty 0 15
+Switch(config-line)#login local
+Switch(config-line)#transport input telnet
+Switch(config-line)#^Z
+Switch#
+%SYS-5-CONFIG_I: Configured from console by console
+Switch#show running-config 
+Building configuration...
+
+Current configuration : 1355 bytes
+!
+version 12.2(37)SE1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Switch
+!
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+!
+!
+!
+!
+!
+!
+!
+!
+username myaccount secret 5 $1$mERr$7sOd0mgRuXYhHwfWsV4QZ/
+!
+!
+[...]
+!
+line vty 0 4
+ login local
+ transport input telnet
+line vty 5 15
+ login local
+ transport input telnet
+!
+!
+!
+!
+end
+
+
+Switch#
+```
+
+
+``` bash
+Switch#configure terminal 
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#enable secret cisco
+Switch(config)#username myaccount secret mypassword
+Switch(config)#line vty 0 15
+Switch(config-line)#login local
+Switch(config-line)#transport input telnet
+Switch(config-line)#^Z
+Switch#
+%SYS-5-CONFIG_I: Configured from console by console
+Switch#show running-config 
+Building configuration...
+
+Current configuration : 1355 bytes
+!
+version 12.2(37)SE1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Switch
+!
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+!
+!
+!
+!
+!
+!
+!
+!
+username myaccount secret 5 $1$mERr$7sOd0mgRuXYhHwfWsV4QZ/
+!
+!
+[...]
+!
+line vty 0 4
+ login local
+ transport input telnet
+line vty 5 15
+ login local
+ transport input telnet
+!
+!
+!
+!
+end
+
+
+Switch#
+```
+
+
+
+``` python
 Switch#configure terminal 
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#enable secret cisco
