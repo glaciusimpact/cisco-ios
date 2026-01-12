@@ -558,20 +558,19 @@ Switch#
 	- [ ] Disable Telnet
 	- [ ] Disable Web interfaces
 	- [ ] Disable FTP
-	- [ ] Disable TFTP
 	- [ ] Secure Console access
 	- [ ] Secure SSH local user Password
-- [ ] Other protocols
+	- [ ] Radius access
+- [ ] Various protocols
 	- [ ] SNMPv3
-- [ ] Discovery protocols
 	- [ ] Disable CDP
 	- [ ] Disable LLDP
-- [ ] DHCP Snooping
+- [ ] Spanning-tree
 - [ ] Port Security
 - [ ] Storm control
+- [ ] DHCP Snooping
 
-
-#### Enable secure management access
+#### Secure management access
 
 *Use enable secret*
 
@@ -715,16 +714,11 @@ no ip http server
 no ip http secure-server
 ```
 
+*Disable FTP*
 
-	- [ ] Disable FTP
-	- [ ] Disable TFTP
-	- [ ] Secure Console access
-	- [ ] Secure SSH local user Password
-
-
-
-
-
+```
+no ftp-server enable
+```
 
 *Secure Console access*
 
@@ -807,17 +801,57 @@ Switch(config)#
 ```
 </details>
 
+ *Secure SSH local user Password*
+
+Replace all user account using "password" with "secret".
+
+#### Various protocols
+
+*SNMPv3*
+
+
+
+
+
+
+Various protocols
+	- [ ] SNMPv3
+	- [ ] Disable CDP
+	- [ ] Disable LLDP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### Cisco IOS Encryption/Hash
 
-| Type | Cisco Encryption/Hash                       | Ability to crack | NSA recommendation (2022)                                                      |
+| Type | Cisco Encryption/Hash                       | Ability to crack | NSA recommendations (2022)                                                     |
 | :--: | ------------------------------------------- | :--------------: | :----------------------------------------------------------------------------- |
 |  0   | Clear                                       |    Immediate     | $${\color{red}Do \space not \space use}$$                                      |
 |  4   | SHA-256                                     |       Easy       | $${\color{red}Do \space not \space use}$$                                      |
 |  5   | MD5                                         |      Medium      | Not NIST approved, use only when Types 6, 8, and 9 are not available           |
 |  6   | AES-128 Reversible Encryption               |    Difficult     | Use only when reversible encryption is needed, or when Type 8 is not available |
 |  7   | Encrypted (Reversible Vigenere obfuscation) |    Immediate     | $${\color{red}Do \space not \space use}$$                                      |
-|  8   | SHA-256                                     |    Difficult     | Recommended                                                                    |
+|  8   | SHA-256                                     |    Difficult     | $${\color{green}Recommended}$$                                                 |
 |  9   | Scrypt                                      |    Difficult     | Not NIST approved                                                              |
-- Link:
+
+- Links:
+	- NSA Best practice
 https://media.defense.gov/2022/Feb/17/2002940795/-1/-1/1/CSI_CISCO_PASSWORD_TYPES_BEST_PRACTICES_20220217.PDF
+	- Cisco Type 7 Password Decrypt / Decoder / Crack online Tool
+https://www.firewall.cx/cisco/cisco-routers/cisco-type7-password-crack.html
+
