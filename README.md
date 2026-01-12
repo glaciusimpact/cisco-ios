@@ -7,7 +7,7 @@ Basic Network Cisco Switch IOS XE knowledge and configuration.
 
 - [Configuration](#Configuration)
 	- [Default Switch Configuration](#default-switch-configuration)
-	- Basic Configuration
+	- Basic Setup
 	- Erase Configuration
 
 - [Switch Management](#Switch-Management)
@@ -28,7 +28,8 @@ Basic Network Cisco Switch IOS XE knowledge and configuration.
 	- OSPF
 	- BGP
 
-- Security Checklist
+- [Security](#Security)
+	- [Security Checklist](#security-checklist)
 	- Access Security
 	- Password Security
 	- Protocol Security
@@ -142,10 +143,9 @@ Switch#
 ``` 
 </details>
 
-
 #### Default running configuration
 
-*Show default configuration*
+*Show configuration*
 
 ```
 show running-config
@@ -279,7 +279,7 @@ Switch#
 
 #### Default Interface status
 
-*Show default interface status*
+*Show interface status*
 
 ```
 show interfaces status
@@ -324,7 +324,7 @@ Switch#
 
 #### Default VLANs
 
-*Show default VLAN status*
+*Show VLAN status*
 
 ```
 show vlan
@@ -392,9 +392,6 @@ Switch(config-line)#^Z
 Switch#
 %SYS-5-CONFIG_I: Configured from console by console
 
-Switch#show running-config ?
-  |  Output Modifiers
-  <cr>
 Switch#show running-config 
 Building configuration...
 
@@ -896,3 +893,10 @@ Primary Secondary Type              Ports
 Switch#
 ```
 
+
+## Security
+
+### Security Checklist
+
+- [ ] Enable secure management access
+- [ ] Disable unsecure management access
