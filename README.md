@@ -17,7 +17,7 @@ Basic Network Cisco Switch IOS XE knowledge and configuration.
 
 - [Security](#Security)
 	- [Security Checklist](#security-checklist)
-	- [Cisco IOS Encryption/Hash](#cisco-ioc-encryptionhash)
+	- [Cisco IOS Encryption/Hash](#cisco-ios-encryptionhash)
 	- Access Security
 	- Password Security
 	- Protocol Security
