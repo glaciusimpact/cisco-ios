@@ -7,18 +7,18 @@ Below is a checklist of measures to strengthen the security of Cisco switches an
 - [ ] [1. Deferrence](#1-deferrence)
 	- [ ] [1.1 Add a warning banner](#11-add-a-warning-banner)
 - [ ] [2. Attack Surface Reduction](#2-attack-surface-reduction)
-	- [ ] 2.1 Disable Telnet
-	- [ ] 2.2 Disable Web interfaces
-	- [ ] 2.3 Disable FTP
+	- [ ] [2.1 Disable Telnet](#21-disable-telnet)
+	- [ ] [2.2 Disable Web interfaces](#22-disable-web-interfaces)
+	- [ ] [2.3 Disable FTP](#23-disable-ftp)
 - [ ] [3. Secure local management access](#3-secure-local-management-access)
-	- [ ] 3.1 Use enable secret
-	- [ ] 3.2 Disable enable password
-	- [ ] 3.3 Secure Console access
+	- [ ] [3.1 Use enable secret](#31-use-enable-secret)
+	- [ ] [3.2 Disable enable password](#32-disable-enable-password)
+	- [ ] [3.3 Secure Console access](#33-secure-console-access)
 - [ ] [4. Secure remote management access](#4-secure-remote-management-access)
-	- [ ] 4.1 Enable and setup SSH
-	- [ ] 4.2 Radius access
+	- [ ] [4.1 Enable and setup SSH](#41-enable-and-setup-ssh)
+	- [ ] [4.2 Radius access](#42-radius-access)
 - [ ] [5. Preventing loops](#5-preventing-loops)
-	- [ ] 5.1 Spanning-tree
+	- [ ] [5.1 Spanning-tree](#51-spanning-tree)
 	- [ ] 5.2 Storm control
 - [ ] [6. Limit Reconnaissance techniques]
 	- [ ] 6.1 Disable CDP
@@ -27,7 +27,7 @@ Below is a checklist of measures to strengthen the security of Cisco switches an
 	- [ ] 7.1 MAC Address Flooding Attack
 	- [ ] 7.2 DHCP Snooping
 - [ ] [8. VLAN Attack Protection](#8-vlan-attack-protection)
-	- [ ] 8.1 VTP mode transparent
+	- [ ] [8.1 VTP mode transparent](#81-vtp-mode-transparent)
 	- [ ] 8.2 VLAN hopping
 - [ ] [9. Monitoring Protection]
 	- [ ] 9.1 SNMPv3
