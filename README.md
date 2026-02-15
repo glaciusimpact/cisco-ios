@@ -17,9 +17,45 @@ Below is a checklist of measures to strengthen the security of Cisco switches an
 - [ ] [4. Secure remote management access](#4-secure-remote-management-access)
 	- [ ] 4.1 Enable and setup SSH
 	- [ ] 4.2 Radius access
+- [ ] [5. Preventing loops](#5-preventing-loops)
+	- [ ] 5.1 Spanning-tree
+	- [ ] 5.2 Storm control
+- [ ] [6. Limit Reconnaissance techniques]
+	- [ ] 6.1 Disable CDP
+	- [ ] 6.2 Disable LLDP
+- [ ] [7. Denial of Service mitigation]
+	- [ ] 7.1 MAC Address Flooding Attack
+	- [ ] 7.2 DHCP Snooping
+- [ ] [8. VLAN Attack Protection]
+	- [ ] 8.1 VTP mode transparent
+	- [ ] 8.2 VLAN hopping
 
+SW1(config)#vtp mode transparent
+Setting device to VTP TRANSPARENT mode.
+SW1(config)#
+
+
+Port Security
+
+interface FastEthernet0/1
+ switchport mode access
+ switchport port-security
+!
+interface FastEthernet0/2
+ switchport mode trunk
+ switchport port-security
+ switchport port-security maximum 8
 
 ---
+
+x[ ] Various protocols
+[ ] SNMPv3
+x[ ] Disable CDP
+x[ ] Disable LLDP
+x[ ] Spanning-tree
+[ ] Port Security
+x[ ] Storm control
+[ ] DHCP Snooping
 
 ### 1. Deferrence
 
@@ -329,6 +365,8 @@ Instead of have several account on every devices an access with a Radius account
 
 Note that the SSH account created previously can be removed or kept as a backup account in case the connection with the Radius server is no reacheable (this is why there is "aaa authentication login default group radius local").
 
+Warning: as long as the device can make requests to the Radius server local accounts will not be usable for Console and SSH. Only Radius accounts will allow to access the device.
+
 ``` pascal
 aaa new-model
 radius server rad_config
@@ -419,9 +457,36 @@ SW1#
 
 ----
 
+### 5. Preventing loops
+
+#### 5.1 Spanning-tree
+
+---
+
+### 8. VLAN Attack Protection
 
 
+#### 8.1 VTP mode transparent
 
+VTP is not recommended any longer by Cisco. It can potentially destroy the VLANs of a switch. If the VTP of a switch is configured in transparent mode it is not vulnerable to a VTP attack or misconfiguration and its VLAN configuration is stored in the running config and not any longer in vlan.dat.
+
+``` pascal
+SW1(config)#vtp mode transparent
+```
+
+<details>
+<summary>Output</summary>
+
+``` python
+SW1(config)#vtp mode transparent
+Setting device to VTP TRANSPARENT mode.
+SW1(config)#
+```
+</details>
+
+#### 8.2 VLAN hopping
+
+---
 
 ### Security Checklist
 
