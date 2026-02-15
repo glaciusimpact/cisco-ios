@@ -20,8 +20,8 @@ Below is a checklist of measures to strengthen the security of Cisco switches an
 - [ ] [5. Preventing loops](#5-preventing-loops)
 	- [ ] [5.1 Spanning-tree](#51-spanning-tree)
 	- [ ] [5.2 VLAN Root Election Protection](#52-vlan-root-election-protection)
-	- [ ] 5.3 Storm control
-	- [ ] 5.4 BPDU Guard
+	- [ ] [5.3 BPDU Guard](#53-bpdu-guard)
+	- [ ] 5.4 Storm control
 - [ ] [6. Limit Reconnaissance techniques]
 	- [ ] 6.1 Disable CDP
 	- [ ] 6.2 Disable LLDP
@@ -506,7 +506,24 @@ spanning-tree vlan 3 priority 0
 etc.
 ```
 
+#### 5.3 BPDU Guard
 
+BPDU guard prevents a rogue switch or a cabling mistake to create a loop. It can be configured globaly (i.e on every ports but without a configuration on each port) or on all ports individually. The following configuration shows how to do it individually:
+
+``` pascal
+interface range gigabitEthernet 1/0/5-24
+spanning-tree bpduguard enable
+```
+
+<details>
+<summary>Output</summary>
+
+``` python
+SW1(config-if)#interface range gigabitEthernet 1/0/5-24
+SW1(config-if-range)#spanning-tree bpduguard enable
+SW1(config-if-range)#
+```
+</details>
 
 ---
 
