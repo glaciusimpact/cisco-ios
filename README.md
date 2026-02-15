@@ -1,8 +1,6 @@
-# Cisco IOS XE
+# Cisco IOS XE security checklist
 
-Here is a checklist to secure a Cisco Switch IOS XE.
-
-
+Below is a checklist of measures to strengthen the security of Cisco switches and routers (IOS and IOS XE).
 
 ## Security Checklist
 
@@ -18,9 +16,7 @@ Here is a checklist to secure a Cisco Switch IOS XE.
 	- [ ] 3.3 Secure Console access
 - [ ] [4. Secure remote management access](#4-secure-remote-management-access)
 	- [ ] 4.1 Enable and setup SSH
-	- [ ] 4.2 Secure SSH local user Password
-	- or
-	- [ ] 4.3 Radius access
+	- [ ] 4.2 Radius access
 
 
 ---
@@ -128,14 +124,14 @@ no enable password
 
 #### 3.3 Secure Console access
 
-There are 2 configurations possible with Console access. This one is the prefered configuration using an account with a more secure option (Type 5) than using a password crypted using service password-encryption (Type 7 encryption). A 30 seconds timeout is set for security reason.
+There are 2 configurations possible with Console access. This one is the prefered configuration using an account with a more secure option (Type 5) than using only a password crypted using service password-encryption (Type 7 encryption). A 30 seconds timeout is set for security reason.
 
 a) Secure option
 
-Replace "myconsolepassword" with a more secure password.
+Replace "myconsolepassword" with a more secure password. If scrypt (Type 9) is not supported then remove "algorithm-type scrypt" for Type 5 encryption/hash.
 
 ``` pascal
-username myconsoleaccount secret myconsolepassword
+username myconsoleaccount algorithm-type scrypt secret myconsolepassword
 line console 0
 no password
 login local
@@ -149,7 +145,7 @@ exec-timeout 30
 Switch>en
 Switch#configure terminal 
 Enter configuration commands, one per line.  End with CNTL/Z.
-Switch(config)#username myconsoleaccount secret myconsolepassword
+Switch(config)#username myconsoleaccount algorithm-type scrypt secret myconsolepassword
 Switch(config)#line console 0
 Switch(config-line)#no password
 Switch(config-line)#login local
@@ -163,7 +159,7 @@ Switch#show running-config
 [...]
 
 !
-username myconsoleaccount secret 5 $1$mERr$XzhDH/exGgLcaXa4fSWcG0
+username myconsoleaccount secret 9 $9$J19FIAftPZf7c3$kkL9xjX51NpUX13uMcG3XdQE4z2Q.G3NKlAiYtBov9c
 !
 
 [...]
@@ -219,7 +215,7 @@ Switch(config)#
 
 #### 4.1 Enable and setup SSH
 
-SSH allows a remote secure access to the device. A hostname of the device has to be set (here SW1 but you can set the one you want) a key must be generated. A domain name, an account and its password must be set also (they can be modified). A timeout of 30 seconds is set but can be modified if needed.
+SSH allows a remote secure access to the device. A hostname of the device has to be set (here SW1 but you can set the one you want) a key must be generated. A domain name, an account and its password must be set also (they can be modified). A timeout of 30 seconds is set but can be modified if needed. Add of course an IP address to a SVI to reach the device if not already set.
 
 ``` pascal
 hostname SW1
@@ -325,11 +321,100 @@ SW1#
 ```
 </details>
 
+---
+
+#### 4.2 Radius access
+
+Instead of have several account on every devices an access with a Radius account simplify the management of the accounts. Below is a basic configuration. TACACS+ configuration is another option similar but proprietary (Cisco).
+
+Note that the SSH account created previously can be removed or kept as a backup account in case the connection with the Radius server is no reacheable (this is why there is "aaa authentication login default group radius local").
+
+``` pascal
+aaa new-model
+radius server rad_config
+address ipv4 10.0.1.254 auth-port 1812
+key mys3cret
+exit
+aaa authentication login default group radius local
+aaa authorization exec default group radius
+line vty 0 15
+login authentication default
+```
+
+<details>
+<summary>Output</summary>
+
+``` python
+SW1(config)#aaa new-model
+SW1(config)#radius server rad_config
+SW1(config-radius-server)#address ipv4 10.0.1.254 auth-port 1812
+SW1(config-radius-server)#key mys3cret
+ WARNING: Command has been added to the configuration using a type 0 password. However, type 0 passwords will soon be deprecated. Migrate to a supported password type
+*Feb 15 18:39:23.109: %AAAA-4-CLI_DEPRECATED: WARNING: Command has been added to the configuration using a type 0 password. However, type 0 passwords will soon be deprecated. Migrate to a supported password type
+SW1(config-radius-server)#exit
+SW1(config)#aaa authentication login default group radius local
+SW1(config)#aaa authorization exec default group radius
+SW1(config)#line vty 0 15
+SW1(config-line)#login authentication default
+SW1(config-line)#^Z
+SW1#
+%SYS-5-CONFIG_I: Configured from console by console
+
+SW1#show running-config
+Building configuration...
+
+Current configuration : 2925 bytes
+!
+version 16.3.2
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+
+[...]
+
+!
+aaa new-model
+!
+aaa authentication login default group radius local 
+!
+!
+aaa authorization exec default group radius
+!
+
+[...]
+
+!
+radius server rad_config
+ address ipv4 10.0.1.254 auth-port 1812
+ key mys3cret
+radius server 10.0.1.254
+ address ipv4 10.0.1.254 auth-port 1812
+ key mys3cret
+!
+!
+!
+line con 0
+ exec-timeout 30 0
+!
+line aux 0
+!
+line vty 0 4
+ login authentication default
+ transport input ssh
+line vty 5 15
+ login authentication default
+ transport input ssh
+!
+!
+!
+!
+end
 
 
-
-
-
+SW1#
+```
+</details>
 
 
 ----
