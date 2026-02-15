@@ -5,7 +5,7 @@ Below is a checklist of measures to strengthen the security of Cisco switches an
 ## Security Checklist
 
 - [ ] [1. Deferrence](#1-deferrence)
-	- [ ] 1.1 Add a warning banner
+	- [ ] [1.1 Add a warning banner](#11-add-a-warning-banner)
 - [ ] [2. Attack Surface Reduction](#2-attack-surface-reduction)
 	- [ ] 2.1 Disable Telnet
 	- [ ] 2.2 Disable Web interfaces
@@ -26,13 +26,9 @@ Below is a checklist of measures to strengthen the security of Cisco switches an
 - [ ] [7. Denial of Service mitigation]
 	- [ ] 7.1 MAC Address Flooding Attack
 	- [ ] 7.2 DHCP Snooping
-- [ ] [8. VLAN Attack Protection]
+- [ ] [8. VLAN Attack Protection](#8-vlan-attack-protection)
 	- [ ] 8.1 VTP mode transparent
 	- [ ] 8.2 VLAN hopping
-
-SW1(config)#vtp mode transparent
-Setting device to VTP TRANSPARENT mode.
-SW1(config)#
 
 
 Port Security
