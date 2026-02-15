@@ -441,6 +441,45 @@ SW1#
 
 #### 5.1 Spanning-tree
 
+MSTP and Rapid PVST+ are the best options for spanning-tree.
+
+Here is the configuration to enable spanning-tree is Rapid PVST+ in a switch.
+
+``` pascal
+spanning-tree mode rapid-pvst 
+```
+
+<details>
+<summary>Output</summary>
+
+``` python
+SW1(config)#spanning-tree mode rapid-pvst 
+SW1(config)#do show spanning-tree summary
+Switch is in rapid-pvst mode
+Root bridge for: default
+Extended system ID           is enabled
+Portfast Default             is disabled
+PortFast BPDU Guard Default  is disabled
+Portfast BPDU Filter Default is disabled
+Loopguard Default            is disabled
+EtherChannel misconfig guard is disabled
+UplinkFast                   is disabled
+BackboneFast                 is disabled
+Configured Pathcost method used is short
+
+Name                   Blocking Listening Learning Forwarding STP Active
+---------------------- -------- --------- -------- ---------- ----------
+VLAN0001                     0         0        0          3          3
+
+---------------------- -------- --------- -------- ---------- ----------
+2 vlans                      0         0        0          3          3
+
+SW1(config)#
+```
+</details>
+
+
+
 ---
 
 
