@@ -19,7 +19,9 @@ Below is a checklist of measures to strengthen the security of Cisco switches an
 	- [ ] [4.2 Radius access](#42-radius-access)
 - [ ] [5. Preventing loops](#5-preventing-loops)
 	- [ ] [5.1 Spanning-tree](#51-spanning-tree)
-	- [ ] 5.2 Storm control
+	- [ ] [5.2 VLAN Root Election Protection](#52-vlan-root-election-protection)
+	- [ ] 5.3 Storm control
+	- [ ] 5.4 BPDU Guard
 - [ ] [6. Limit Reconnaissance techniques]
 	- [ ] 6.1 Disable CDP
 	- [ ] 6.2 Disable LLDP
@@ -441,7 +443,7 @@ SW1#
 
 #### 5.1 Spanning-tree
 
-MSTP and Rapid PVST+ are the best options for spanning-tree.
+MSTP and Rapid PVST+ are the best options for spanning-tree. They both have a good performance to prevent network loops.
 
 Here is the configuration to enable spanning-tree is Rapid PVST+ in a switch.
 
@@ -477,6 +479,32 @@ VLAN0001                     0         0        0          3          3
 SW1(config)#
 ```
 </details>
+
+#### 5.2 VLAN Root Election Protection
+
+In order to prevent another switch connected to the network to become the spanning-tree root it is mendatory to get the low possible value (0) of the Priority of the Bridge ID inside the BPDU.
+
+Bridge ID (BID)
+```
+   4 bits           12 bits           48 bits
++-----------+---------------------+-------------+
+| Priority  | System ID Extension |             |
+| (Multiple | (Typically holds    | MAC Address |
+| of 4096)  |  VLAN ID)           |             |
++-----------+---------------------+-------------+
+```
+
+Note: Root Guard could also be used to protect unexpected VLAN root election but it shutdowns a switch port which can be a problem.
+
+So on every VLAN of the Root switch (core switch?) the priority should be set to 0:
+
+``` pascal
+spanning-tree vlan 1 priority 0
+spanning-tree vlan 2 priority 0
+spanning-tree vlan 3 priority 0
+...
+etc.
+```
 
 
 
