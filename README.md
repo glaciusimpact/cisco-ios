@@ -8,7 +8,7 @@ Here is a checklist to secure a Cisco Switch IOS XE.
 
 - [ ] [1. Deferrence](#1.-Deferrence)
 	- [ ] 1.1 Add a warning banner
-- [ ] [2. Attack Surface Reduction](#2.-Attack-Surface-Reduction)
+- [ ] [2. Attack Surface Reduction](#2--Attack-Surface-Reduction)
 	- [ ] 2.1 Disable Telnet
 	- [ ] 2.2 Disable Web interfaces
 	- [ ] 2.3 Disable FTP
@@ -16,7 +16,7 @@ Here is a checklist to secure a Cisco Switch IOS XE.
 	- [ ] 3.1 Use enable secret
 	- [ ] 3.2 Disable enable password
 	- [ ] 3.3 Secure Console access
-- [ ] [4. Secure remote management access](#4.Secure-remote-management-access)
+- [ ] [4. Secure remote management access](#4Secure-remote-management-access)
 	- [ ] 4.1 Enable and setup SSH
 	- [ ] 4.2 Secure SSH local user Password
 	- or
@@ -130,7 +130,7 @@ no enable password
 
 There are 2 configurations possible with Console access. This one is the prefered configuration using an account with a more secure option (Type 5) than using a password crypted using service password-encryption (Type 7 encryption). A 30 seconds timeout is set for security reason.
 
-a) More secure option
+a) Secure option
 
 Replace "myconsolepassword" with a more secure password.
 
@@ -178,7 +178,7 @@ line con 0
 ```
 </details>
 
-b) Less secure option
+b) Less secure option (Refrain from using)
 
 Just for information here is the other Console access configuration but less secure. Prefer the more secure option.
 
