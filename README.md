@@ -21,9 +21,9 @@ Below is a checklist of measures to strengthen the security of Cisco switches an
 	- [ ] [5.1 Spanning-tree](#51-spanning-tree)
 	- [ ] [5.2 VLAN Root Election Protection](#52-vlan-root-election-protection)
 	- [ ] [5.3 BPDU Guard](#53-bpdu-guard)
-	- [ ] 5.4 Storm control
-- [ ] [6. Limit Reconnaissance techniques]
-	- [ ] 6.1 Disable CDP
+	- [ ] [5.4 Storm control](#54-storm-control)
+- [ ] [6. Limit Reconnaissance techniques](#6-limit-reconnaissance-techniques)
+	- [ ] [6.1 Disable CDP](#61-disable-cdp)
 	- [ ] 6.2 Disable LLDP
 - [ ] [7. Denial of Service mitigation]
 	- [ ] 7.1 MAC Address Flooding Attack
@@ -524,6 +524,124 @@ SW1(config-if-range)#spanning-tree bpduguard enable
 SW1(config-if-range)#
 ```
 </details>
+
+---
+
+#### 5.4 Storm control
+
+Broadcast, Multicast or Unknow Unicast storm may occur when the network has a loop. This happens if spanning tree is not correcty configured or if a network attack is running. By default the port reach the state of ERR-DISABLE (a shut/no shut is needed to re-enable the port).
+
+``` pascal
+interface gigabitEthernet 1/0/1
+storm-control broadcast level 10
+```
+
+<details>
+<summary>Output</summary>
+
+``` python
+Switch(config)#interface gigabitEthernet 1/0/1
+Switch(config-if)#storm-control broadcast level 10
+Switch(config-if)#^Z
+Switch#
+%SYS-5-CONFIG_I: Configured from console by console
+
+Switch#
+Switch#show storm-control broadcast 
+Interface  Filter State   Upper        Lower        Current
+---------  -------------  -----------  -----------  ----------
+Gig1/0/1   Link Up         10.00%       10.00%        0.00%
+
+Switch#
+```
+</details>
+
+---
+
+### 6. Limit Reconnaissance techniques
+
+#### 6.1 Disable CDP
+
+CDP can be remove totally (on all the device) or just on some interfaces (usually endpoint to endpoints or other company switches).
+
+##### a) CDP removed totally
+
+``` pascal
+no cdp run
+```
+
+<details>
+<summary>Output</summary>
+
+``` python
+
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#no cdp run 
+Switch(config)#^Z
+Switch#
+%SYS-5-CONFIG_I: Configured from console by console
+
+Switch#show running-config 
+Building configuration...
+
+[...]
+
+!
+no cdp run
+!
+!
+
+[...]
+```
+
+##### b) CDP removed partially
+
+``` pascal
+interface range gigabitEthernet 1/0/2 -7
+no cdp enable
+```
+
+<details>
+<summary>Output</summary>
+
+``` python
+Switch(config)#interface range gigabitEthernet 1/0/2 -7
+Switch(config-if-range)#no cdp enable
+Switch(config-if-range)#^Z
+Switch#
+%SYS-5-CONFIG_I: Configured from console by console
+
+Switch#show running-config 
+Building configuration...
+
+[...]
+
+interface GigabitEthernet1/0/2
+ no cdp enable
+!
+interface GigabitEthernet1/0/3
+ no cdp enable
+!
+interface GigabitEthernet1/0/4
+ no cdp enable
+!
+interface GigabitEthernet1/0/5
+ no cdp enable
+!
+interface GigabitEthernet1/0/6
+ no cdp enable
+!
+interface GigabitEthernet1/0/7
+ no cdp enable
+!
+interface GigabitEthernet1/0/8
+!
+interface GigabitEthernet1/0/9
+
+[...]
+```
+
 
 ---
 
