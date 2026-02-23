@@ -25,9 +25,9 @@ Below is a checklist of measures to strengthen the security of Cisco switches an
 - [ ] [6. Limit Reconnaissance techniques](#6-limit-reconnaissance-techniques)
 	- [ ] [6.1 Disable CDP](#61-disable-cdp)
 	- [ ] [6.2 Disable LLDP](#62-disable-lldp)
-- [ ] [7. Denial of Service mitigation]
-	- [ ] 7.1 MAC Address Flooding Attack
-	- [ ] 7.2 DHCP Snooping
+- [ ] [7. Denial of Service mitigation](#7-denial-of-service-mitigation)
+	- [ ] [7.1 MAC Address Flooding Attack](#71-mac-address-flooding-attack)
+	- [ ] [7.2 DHCP Snooping](#72-dhcp-snooping)
 - [ ] [8. VLAN Attack Protection](#8-vlan-attack-protection)
 	- [ ] [8.1 VTP mode transparent](#81-vtp-mode-transparent)
 	- [ ] 8.2 VLAN hopping
@@ -677,7 +677,11 @@ no lldp receive
 
 ---
 
-Port Security
+### 7. Denial of Service mitigation
+
+#### 7.1 MAC Address Flooding Attack
+
+MAC Address flooding attack is countered on port receiving more MAC addresses then expected (like endpoint interfaces) thanks to Port Security. The port is then shutdown if 2 MAC addresses or if a specified number of MAC addresses is reached on an interface.
 
 ``` pascal
 interface FastEthernet0/1
@@ -688,6 +692,22 @@ interface FastEthernet0/2
  switchport mode trunk
  switchport port-security
  switchport port-security maximum 8
+```
+
+#### 7.2 DHCP Snooping
+
+DHCP snooping is a protection mechanism on switches used to filter DHCP messages received on "untrusted" ports. This protects against rogue DHCP servers.
+
+- If a DHCP message is received on a "trusted" port, the packet is forwarded without inspection.
+- If a message is received on an "untrusted" port, the message is inspected and may be discarded.
+
+``` pascal
+ip dhcp snooping
+ip dhcp snooping vlan 1
+no ip dhcp snooping information option 
+
+interface Fa0/1
+ip dhcp snooping trust
 ```
 
 ---
