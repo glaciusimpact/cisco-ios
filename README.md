@@ -594,6 +594,7 @@ no cdp run
 
 [...]
 ```
+</details>
 
 ##### b) CDP removed partially
 
@@ -641,7 +642,7 @@ interface GigabitEthernet1/0/9
 
 [...]
 ```
-
+</details>
 
 ---
 
