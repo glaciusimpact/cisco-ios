@@ -24,7 +24,7 @@ Below is a checklist of measures to strengthen the security of Cisco switches an
 	- [ ] [5.4 Storm control](#54-storm-control)
 - [ ] [6. Limit Reconnaissance techniques](#6-limit-reconnaissance-techniques)
 	- [ ] [6.1 Disable CDP](#61-disable-cdp)
-	- [ ] 6.2 Disable LLDP
+	- [ ] [6.2 Disable LLDP](#62-disable-lldp)
 - [ ] [7. Denial of Service mitigation]
 	- [ ] 7.1 MAC Address Flooding Attack
 	- [ ] 7.2 DHCP Snooping
@@ -562,9 +562,9 @@ Switch#
 
 #### 6.1 Disable CDP
 
-CDP can be remove totally (on all the device) or just on some interfaces (usually endpoint to endpoints or other company switches).
+CDP can be remove globally (on all the device) or just on some interfaces (usually endpoint to endpoints or other company switches). By default CDP is enabled.
 
-##### a) CDP removed totally
+##### a) CDP removed globally
 
 ``` pascal
 no cdp run
@@ -574,7 +574,6 @@ no cdp run
 <summary>Output</summary>
 
 ``` python
-
 Switch#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#no cdp run 
@@ -646,6 +645,37 @@ interface GigabitEthernet1/0/9
 
 ---
 
+#### 6.2 Disable LLDP
+
+LLDP can be remove globally (on all the device) or just on some interfaces (usually endpoint to endpoints or other company switches). By default LLDP is not enabled (so disabling it globally will remove it from the configuration).
+
+##### a) LLDP removed globally
+
+``` pascal
+no lldp run
+```
+
+<details>
+<summary>Output</summary>
+
+``` python
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#no lldp run
+Switch(config)#^Z
+Switch#
+```
+</details>
+
+##### b) CDP removed partially
+
+``` pascal
+interface range gigabitEthernet 1/0/2 -7
+no lldp transmit
+no lldp receive
+```
+
+---
 
 Port Security
 
