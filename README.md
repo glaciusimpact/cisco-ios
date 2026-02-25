@@ -977,17 +977,17 @@ Switch(config)#snmp-server user myuser MyGroup v3 auth sha MySuperPassword123. p
 ```
 </details>
 
-Feel free to change the value of AES encyption (128 to 192 or better 256) if you can.
+Feel free to change the value of AES encyption (128 to 192 or even better 256) if you can.
 
-An ACL to protect access to SNMP requests from unexpected IP addreses could like this:
+An ACL to protect access to SNMP requests from unexpected IP addresses could like this:
 
 ``` pascal
 ip access-list extended MyACL
 permit udp 192.168.0.123 0.0.0.0 eq snmp host 192.168.0.100
 ```
 
-- 192.168.0.123: IP address of the remote computer/monitoring server.
-- 192.168.0.100: IP address of the switch.
+- `192.168.0.123`: IP address of the remote computer/monitoring server.
+- `192.168.0.100`: IP address of the switch.
 
 <details>
 <summary>Output</summary>
