@@ -892,9 +892,9 @@ Trunking VLANs Enabled: All
 
 ##### b) Double tagging mitigation
 
-Double tagging VLAN hopping is possible if an attacker is connected to an **access port** switch configured with a VLAN identical as the native VLAN of a port connected to a switch. A second switch is needed for the attack. The packet sent by the attacker has 2 VLAN tags: the first one which uses the same ID as the native VLAN and a second VLAN tag which is the VLAN ID of the target. The VLAN tags are not removed on the access port but once arrived to a trunk port facing another switch then the first tag is removed (the one identical to the native VLAN) then the frame is crossing the link to the other switch using the native VLAN. Arrived at the second switch trunk port the switch removes the second VLAN an put the frame into the second VLAN. Thus the frame has made a "hop" to the second VLAN defined in the frame sent and continues its journey till reaching the target.
+VLAN hopping via double tagging is possible if an attacker is connected to an **access port** of a switch configured with a VLAN identical to the native VLAN of a port connected to a switch. As you might have guessed, a second switch is needed for the attack. The packet sent by the attacker contains two VLAN tags: the first one which uses the same ID as the native VLAN and a second VLAN tag which is the VLAN ID of the target. The VLAN tags are not removed on the access port but once arrived to a trunk port facing another switch then the first tag is removed (the one identical to the native VLAN) then the frame is crossing the link to the other switch using the native VLAN. Arrived at the second switch trunk port the switch removes the second VLAN an put the frame into the second VLAN. Thus the frame has made a "hop" to the second VLAN defined in the frame sent and continues its journey till reaching the target.
 
-Note: this attack is possible in one way; the attacker can received data from the target. But that can be enough to DoS a server.
+Note: this attack is possible in one way; the attacker cannot receive data from the target. But that can be enough to DoS a server.
 
 Since the problem is because an access VLAN port can be the same as a native VLAN then both of them should be different.
 
