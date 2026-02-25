@@ -964,20 +964,40 @@ It is a good practice to use ACL with allowed IP addresses accessing SNMP OIDs.
 Here is an example of SNMPv3 configuration using SHA+AES:
 
 ``` pascal
+snmp-server group MyGroup v3 priv 
+snmp-server user myuser MyGroup v3 auth sha MySuperPassword123. priv aes 128 MySuperPassword456.
+```
+
+<details>
+<summary>Output</summary>
+
+``` python
 Switch(config)#snmp-server group MyGroup v3 priv 
 Switch(config)#snmp-server user myuser MyGroup v3 auth sha MySuperPassword123. priv aes 128 MySuperPassword456.
 ```
+</details>
 
 Feel free to change the value of AES encyption (128 to 192 or better 256) if you can.
 
-The ACL to protect access to SNMP requests from unexpected IP addreses could like this:
+An ACL to protect access to SNMP requests from unexpected IP addreses could like this:
 
 ``` pascal
-Switch(config)#ip access-list extended MyACL
-Switch(config-ext-nacl)#permit udp 192.168.0.123 0.0.0.0 eq snmp host 192.168.0.100 
-Switch(config-ext-nacl)#
+ip access-list extended MyACL
+permit udp 192.168.0.123 0.0.0.0 eq snmp host 192.168.0.100
 ```
 
+- 192.168.0.123: IP address of the remote computer/monitoring server.
+- 192.168.0.100: IP address of the switch.
+
+<details>
+<summary>Output</summary>
+
+``` python
+Switch(config)#ip access-list extended MyACL
+Switch(config-ext-nacl)#permit udp 192.168.0.123 0.0.0.0 eq snmp host 192.168.0.100
+Switch(config-ext-nacl)#
+```
+</details>
 
 ---
 
