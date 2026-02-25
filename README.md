@@ -1,4 +1,4 @@
-# Cisco IOS XE security checklist
+# Cisco IOS security checklist
 
 Below is a checklist of measures to strengthen the security of Cisco switches and routers (IOS and IOS XE).
 
@@ -30,7 +30,7 @@ Below is a checklist of measures to strengthen the security of Cisco switches an
 	- [ ] [7.2 DHCP Snooping](#72-dhcp-snooping)
 - [ ] [8. VLAN Attack Protection](#8-vlan-attack-protection)
 	- [ ] [8.1 VTP mode transparent](#81-vtp-mode-transparent)
-	- [ ] 8.2 VLAN hopping
+	- [ ] [8.2 VLAN hopping](#82-vlan-hopping)
 - [ ] [9. Monitoring Protection]
 	- [ ] 9.1 SNMPv3
 
@@ -683,6 +683,10 @@ no lldp receive
 
 MAC Address flooding attack is countered on port receiving more MAC addresses then expected (like endpoint interfaces) thanks to Port Security. The port is then shutdown if 2 MAC addresses or if a specified number of MAC addresses is reached on an interface.
 
+Here are 2 port configurations to mitigate MAC address flooding attacks:
+- FastEthernet0/1 has a limitation of 1 MAC address (that is a second MAC address on this port will shutdown the port)
+- FastEthernet0/2 hasa limitation of 8 MAC addresses (so a 9th MAC address seen on the port will shutdown the port) 
+
 ``` pascal
 interface FastEthernet0/1
  switchport mode access
@@ -734,6 +738,19 @@ SW1(config)#
 </details>
 
 #### 8.2 VLAN hopping
+
+VLAN hopping is the ability for an attacker to access a network in a VLAN that he shouldn't be able to reach.
+
+To perform a VLAN hopping there are 2 techniques:
+1. by using the Dynamic Trunking Protocol (DTP) which allows a port to be in trunk mode, or by leaving a port configured in trunk mode accessible without filtering VLANs
+2. by using double VLAN tagging
+
+Below, we will see the mitigations for both attacks.
+
+##### a) DTP and trunk mitigation
+
+
+
 
 ---
 
