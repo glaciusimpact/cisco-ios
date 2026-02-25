@@ -821,9 +821,9 @@ which is good!
 
 ###### a.2) Disable DTP protocol on trunk ports
 
-Sometimes we cannot use access ports but trunk ports to connect devices to the switch. If a port is configured in trunk mode then DTP is enable by default. We can disable DTP on a trunk port which removes those messages to an attacker. But the VLAN hopping problem in trunk mode does not come from the DTP. Actually an attacker can send packets with all VLANS he wants if no VLAN filtering is set on a trunk port so VLAN hopping is still possible. So here we are going to configure a trunk, disable DTP messages and filter VLANs (VLAN 1, 2, 3, 4, 5 and 7 other VLANs will be blocked).
+Sometimes we cannot use access ports but trunk ports to connect devices to the switch. If a port is configured in trunk mode then DTP is enable by default. We can disable DTP on a trunk port which removes those messages to an attacker. But the VLAN hopping problem in trunk mode does not come from the DTP. Actually an attacker can send packets with all VLANS he wants if no VLAN filtering is set on a trunk port so VLAN hopping is still possible. So here we are going to configure a trunk, disable DTP messages and filter VLANs (we will allow VLAN 1, 2, 3, 4, 5 and 7 whereas other VLANs will be blocked).
 
-Note: it is not possible to disable DTP globally or on a port without specifying a mode. 
+Note: it is not possible to disable DTP globally or on a port without specifying a mode (access or trunk). 
 
 ``` pascal
 switchport mode trunk
@@ -892,6 +892,66 @@ Trunking VLANs Enabled: All
 
 ##### b) Double tagging mitigation
 
+Double tagging VLAN hopping is possible if an attacker is connected to an **access port** switch configured with a VLAN identical as the native VLAN of a port connected to a switch. A second switch is needed for the attack. The packet sent by the attacker is have 2 VLAN tags: the first one which is the native VLAN and a second which is the VLAN of the target. The VLAN tags are not removed on the access port but once arrived to a trunk port facing another switch then the first tag is removed (the one identical to the native VLAN) then the frame is crossing the link to the other switch using the native VLAN. Arrived at the second switch trunk port the switch removes the second VLAN an put the frame into the second VLAN. Thus the frame has made a "hop" to the second VLAN defined in the frame sent and continues its journey till reaching the target.
+
+Note: this attack is possible in one way; the attacker can received data from the target. But that can be enough to DoS a server.
+
+Since the problem is because an access VLAN port can be the same as a native VLAN then both of them should be different.
+
+To mitigate this issue one can (choose one):
+- Set a different/dedicated VLAN for the trunk native VLAN
+- Use a different VLAN ID for access mode port
+- tag native VLAN
+
+
+###### b.1) Changing the native VLAN of trunks
+
+Probably the best choice.
+
+``` pascal
+switchport trunk native vlan 4094
+```
+
+<details>
+<summary>Output</summary>
+
+``` python
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#int gi1/0/8
+Switch(config-if)#switchport trunk native vlan ?
+  <1-4094>  VLAN ID of the native VLAN when this port is in trunking mode
+Switch(config-if)#switchport trunk native vlan 4094
+Switch(config-if)#
+```
+</details>
+
+
+###### b.2) Changing the native VLAN of trunks
+
+You can choose this solution but do not forget to set up a VLAN different to the native VLAN. 
+
+``` pascal
+switchport access vlan 123
+```
+
+<details>
+<summary>Output</summary>
+
+``` python
+Switch(config-if)#switchport access vlan 123
+% Access VLAN does not exist. Creating vlan 123
+Switch(config-if)#
+```
+</details>
+
+###### b.3) Tagging native VLAN
+
+This command is not supported by all Cisco switches. Should be run in config mode.
+
+``` pascal
+Switch(config)# vlan dot1q tag native
+```
 
 ### 9. Monitoring Protection
 
