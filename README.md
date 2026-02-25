@@ -749,6 +749,9 @@ Below, we will see the mitigations for both attacks.
 
 ##### a) DTP and trunk mitigation
 
+DTP is a Cisco proprietary protocol used to set a switch port automatically in trunk or access mode.
+
+Disabling the DTP protocol also reduces the ability to identify a switch. This is because DTP messages contain the MAC address OUI, which allows the manufacturer's name to be identified.
 
 ##### b) Double tagging
 
@@ -762,7 +765,7 @@ Below, we will see the mitigations for both attacks.
 | Type | Cisco Encryption/Hash                       | Ability to crack | NSA recommendations (2022)                                                     |
 | :--: | ------------------------------------------- | :--------------: | :----------------------------------------------------------------------------- |
 |  0   | Clear                                       |    Immediate     | $${\color{red}Do \space not \space use}$$                                      |
-|  4   | SHA-256 (single iteratio, no salt)          |       Easy       | $${\color{red}Do \space not \space use}$$                                      |
+|  4   | SHA-256 (single iteration, no salt)         |       Easy       | $${\color{red}Do \space not \space use}$$                                      |
 |  5   | MD5                                         |      Medium      | Not NIST approved, use only when Types 6, 8, and 9 are not available           |
 |  6   | AES-128 Reversible Encryption               |    Difficult     | Use only when reversible encryption is needed, or when Type 8 is not available |
 |  7   | Encrypted (Reversible Vigenere obfuscation) |    Immediate     | $${\color{red}Do \space not \space use}$$                                      |
