@@ -1065,7 +1065,9 @@ Switch(config-ext-nacl)#
 hashcat -a 0 -m 500 '$1$mERr$/x9VUDEedbClBAt8DhbGj0' rockyou.txt
 ```
 
+- 
 	- Type 5 (bruteforce)
+
 ```
 hashcat -a 3 -m 500 '$1$mERr$/x9VUDEedbClBAt8DhbGj0'
 ```
