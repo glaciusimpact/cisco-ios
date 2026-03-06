@@ -16,7 +16,8 @@ Below is a checklist of measures to strengthen the security of Cisco switches an
 	- [ ] [3.3 Secure Console access](#33-secure-console-access)
 - [ ] [4. Secure remote management access](#4-secure-remote-management-access)
 	- [ ] [4.1 Enable and setup SSH](#41-enable-and-setup-ssh)
-	- [ ] [4.2 Radius access](#42-radius-access)
+	- [ ] [4.2 Protect SSH access with ACL](#42-protect-ssh-access-with-acl)
+	- [ ] [4.3 Radius access](#43-radius-access)
 - [ ] [5. Preventing loops](#5-preventing-loops)
 	- [ ] [5.1 Spanning-tree](#51-spanning-tree)
 	- [ ] [5.2 VLAN Root Election Protection](#52-vlan-root-election-protection)
@@ -235,12 +236,15 @@ Switch(config)#
 
 SSH allows a remote secure access to the device. A hostname of the device has to be set (here SW1 but you can set the one you want) a key must be generated. A domain name, an account and its password must be set also (they can be modified). A timeout of 30 seconds is set but can be modified if needed. Add of course an IP address to a SVI to reach the device if not already set.
 
+Note: do not forget to setup a layer 3 interface to reach your switch then enable it if needed. An enable password must be set too.
+
 ``` pascal
+enable secret myenablepassword
 hostname SW1
 ip domain name mydomain.com
 crypto key generate rsa
 
-username myaccount secret mypassword
+username bob secret mypassword
 ip ssh version 2
 
 line vty 0 15
@@ -255,6 +259,7 @@ exec-timeout 30
 ``` python
 Switch#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#enable secret myenablepassword
 Switch(config)#hostname SW1
 SW1(config)#ip domain name mydomain.com
 SW1(config)#crypto key generate rsa
@@ -267,7 +272,7 @@ How many bits in the modulus [512]: 4096
 % Generating 4096 bit RSA keys, keys will be non-exportable...[OK]
 
 SW1(config)#
-SW1(config)#username myaccount secret mypassword
+SW1(config)#username bob secret mypassword
 *Mar 1 6:28:51.334: %SSH-5-ENABLED: SSH 1.99 has been enabled
 SW1(config)#ip ssh version 2
 SW1(config)#line vty 0 15
@@ -302,7 +307,7 @@ no ipv6 cef
 !
 !
 !
-username myaccount secret 5 $1$mERr$7sOd0mgRuXYhHwfWsV4QZ/
+username bob secret 5 $1$mERr$7sOd0mgRuXYhHwfWsV4QZ/
 !
 !
 !
@@ -341,7 +346,14 @@ SW1#
 
 ---
 
-#### 4.2 Radius access
+#### 4.2 Protect SSH access with ACL
+
+
+
+
+---
+
+#### 4.3 Radius access
 
 Instead of have several account on every devices an access with a Radius account simplify the management of the accounts. Below is a basic configuration. TACACS+ configuration is another option similar but proprietary (Cisco).
 
@@ -1012,6 +1024,16 @@ Switch(config-ext-nacl)#
 |  7   | Encrypted (Reversible Vigenere obfuscation) |    Immediate     | $${\color{red}Do \space not \space use}$$                                      |
 |  8   | SHA-256                                     |    Difficult     | $${\color{green}Recommended}$$                                                 |
 |  9   | Scrypt                                      |    Difficult     | Not NIST approved                                                              |
+
+- hashcat parameters:
+	- Type 5 (dictionary)
+```
+hashcat -a 0 -m 500 '$1$mERr$/x9VUDEedbClBAt8DhbGj0' rockyou.txt
+```
+- Type 5 (bruteforce)
+```
+hashcat -a 3 -m 500 '$1$mERr$/x9VUDEedbClBAt8DhbGj0'
+```
 
 - Links:
 	- NSA Best practice
